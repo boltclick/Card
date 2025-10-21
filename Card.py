@@ -1,4 +1,5 @@
-# Card cat = new Card (HP, ATK, TYPE, ABILITY)
+import pygame
+from Globals import *
 
 class Typing: #This shouldn't be a subclass because it's general
     def __init__(self, NAME = "attack"):
@@ -9,19 +10,19 @@ class Ability: # Idk if ability needs to use hp, atk, etc. of the parent card. I
         self.name = NAME
 
 class card: # Card will only run if we define the Typing and Ability variable types first
-    def __init__(self, NAME = "Untitled", HEALTH = 0, ATTACK = 0, TYPING = Typing(), ABILITY = Ability()):
+    def __init__(self, NAME = "Untitled", IMAGE = "assets/McMissing.png", HEALTH = 0, ATTACK = 0, TYPING = Typing(), ABILITY = Ability()):
         self.name = NAME
         self.hp = HEALTH
         self.atk = ATTACK
         self.typing = TYPING # type already exists as a function
         self.ability = ABILITY
-    # Hypothetically, we could insert a workaround here to avoid typing self.var infront of every variable.
+        self.image = IMAGE
+
     def Print(self):
         print("NAME: ", self.name, "\nHP: ", self.hp, "\nATK: ", self.atk, "\nTYPE: ", self.typing.name, "\nABILITY: ", self.ability.name)
 
+    def get_image(self):
+        return self.image
 
-
-
-import pygame
-import random
-free_card = card("Free Card", 1, 1, Typing("attack"))
+    def get_name(self):
+        return self.name
