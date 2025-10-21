@@ -1,3 +1,5 @@
+from operator import truediv
+
 import pygame
 from Globals import *
 import random as rnd
@@ -27,6 +29,8 @@ text_font = pygame.font.SysFont("Arial", 30)
 while running:
     screen.fill((0,0,0)) # Resets each frame
     pos = pygame.mouse.get_pos()
+    clicked = is_clicked() # is_clicked = is_clicked() will not work, because they have the same name
+    # print(clicked)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -38,17 +42,16 @@ while running:
 
     end_img = pygame.image.load('assets/End_turn.png')
     end_turn = Button(end_img, "End Turn")
-    end_turn.show(885, 120, 150, 75, pos)
+    end_turn.show(885, 120, 150, 75, pos, clicked)
 
     deck = Button(pygame.image.load("assets/Deck.png"), "Deck")
-    deck.show( 1500, 700, 150, 225, pos)
-    player_hand.display()
+    deck.show( 1500, 700, 150, 225, pos, clicked)
+    player_hand.display(clicked)
     # player_hand.display()
     # pygame.time.wait(500)
 
     # mouse
-    pos = pygame.mouse.get_pos()
-    place_card_on_field(player_field, player_hand, pos)
+    place_card_on_field(player_field, player_hand, pos, clicked)
 
     draw_text("Health = " + str(player.get_health()), font("Arial", 30), (0,255,0), 225, 550)
     draw_text("Health = " + str(enemy.get_health()), font("Arial", 30), (0,255,0), 225, 125)

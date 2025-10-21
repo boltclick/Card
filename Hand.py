@@ -11,7 +11,7 @@ class Hand:
     def __init__(self, Y, CARDS):
         self.hand = []
         self.y = Y
-    def display(self):
+    def display(self, clicked):
         # print("Display updated")
         increment = 550/(len(self.hand) + 1)
         for i in range(1, len(self.hand)+1):
@@ -19,18 +19,18 @@ class Hand:
             # sprites[card_name].show(425 + i*175, self.y)
             sprites[card_name].show(625 + i*increment, self.y)
             # rect = pygame.Rect(625 + i*increment, self.y, 150, 225)
-            if clicked():
+            if clicked:
                 rect = sprites[card_name].get_rect()
                 if rect.collidepoint(pygame.mouse.get_pos()):
                     print("Card clicked!")
                     return True
         return False
 
-    def add_card(self, card):
+    def add_card(self, card, clicked):
         increment = 550/(len(self.hand) + 1)
         # self.number_of_cards += 1
         self.hand.append(card)
-        self.display()
+        self.display(clicked)
         # print(self.cards) # Prints out a non-empty list
 
     def get_cards(self):

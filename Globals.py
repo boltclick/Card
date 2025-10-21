@@ -9,7 +9,7 @@ pos = pygame.mouse.get_pos()
 # def delete(x,y):
 #     delete = pygame.draw.rect(screen, (0, 0, 0), (x, y, 150, 225), 0, 12)
 
-def clicked():
+def is_clicked():
     global last_clicked
     if pygame.mouse.get_pressed()[0] == 1 and (last_clicked < pygame.time.get_ticks() - 500):
         last_clicked = pygame.time.get_ticks()

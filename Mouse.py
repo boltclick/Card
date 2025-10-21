@@ -7,7 +7,7 @@ from Button import *
 
 
 # Track mouse click state
-mouse_down = False
+# mouse_down = False
 # selected_card = None
 # selected_card_index = None
 
@@ -36,10 +36,10 @@ mouse_down = False
 #             print(f"Selected card: {selected_card.get_name()}")
 #             break
 
-def place_card_on_field(field, hand, pos):
-    if hand.display():
+def place_card_on_field(field, hand, pos, clicked): # If you need to detect a click, add a parameter called "clicked", and then use the var clicked from the main class to fill it, when called there
+    if hand.display(clicked):
         print(hand.get_cards())
-        return hand.get_card()
+        return hand.get_cards()
     # if player_hand.display() != []:
         # selected_card_index = player_hand.display()[0]
         # selected_card = player_hand.display()[0]
