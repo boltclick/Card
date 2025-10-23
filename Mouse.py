@@ -38,48 +38,23 @@ from Button import *
 
 def place_card_on_field(field, hand, pos, clicked): # If you need to detect a click, add a parameter called "clicked", and then use the var clicked from the main class to fill it, when called there
     if hand.display(clicked):
-        print(hand.get_cards())
-        return hand.get_cards()
-    # if player_hand.display() != []:
-        # selected_card_index = player_hand.display()[0]
-        # selected_card = player_hand.display()[0]
-        # print(selected_card_index)
-        # print(selected_card)
+        index = hand.get_selected()[0]
+        card = hand.get_selected()[1]
+        if player.get_tenergy() != 0 or card.get_name() == "Free":
 
-    #
-    #
-    # # var = player_field.display()
-    # # var[0] = index; var[1] = card
-    # # print("Card is placed in " + var[0] + "slot")
-    # selected_card = player_hand.display()
-    # # print(selected_card)
-    # if selected_card is None:
-    #     return  # No card selected
-    #
-    # if clicked():  # Left mouse clicked
-    #     print(selected_card)
-    #     mx, my = pos #mouse x, mouse y
-    #     print(pos)
-    #
-    #     # Loop through each field index
-    #     for idx in range(6):  # 6 field slots, idx gives current pos in loop
-    #         rect_x = player_field.xpos[idx]
-    #         rect = pygame.Rect(rect_x, player_field.y, 150, 225)
-    #
-    #         # If mouse is over this field rectangle
-    #         if rect.collidepoint(mx, my):
-    #
-    #             # Try to place the card
-    #             success = player_field.place_card(selected_card, idx)
-    #
-    #             if success:
-    #                 print(f"Card placed in slot {idx}")
-    #                 # Remove from hand?
-    #                 hand.cards.pop(selected_card_index)
-    #                 # Clear selection
-    #                 selected_card = None
-    #                 selected_card_index = None
-    #             else:
-    #                 print("Invalid slot for this card type.")
-    #
-    #             break  # Only try one slot per click
+            # card = card_sprite.get_card()
+            # print(hand.get_selected())
+            # return hand.get_selected()
+            # count = 0
+            for i in range(0,6):
+                if (card.get_typing() == "passive" and i in (0,1) and field.get_field()[i] == None) or (card.get_typing() == "support" and i in (2,5) and field.get_field()[i] == None) or (card.get_typing() == "attack" and i in (3,4) and field.get_field()[i] == None):
+                    print("Card moved to field")
+                    field.place_card(card, i)
+                    hand.remove_card(card)
+                    if card.get_name() != "Free":
+                        player.change_tenergy(-1)
+                    return
+                # if i == None:
+                #     print(count)
+                    # if (card.get_typing() == "passive" and (i in (0, 1))) or (card.get_typing() == "support" and (i in (2, 5))) or (card.get_typing() == "attack" and (i in (3, 4))):
+                    #     field.place_card(card, index)

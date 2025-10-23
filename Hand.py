@@ -26,15 +26,26 @@ class Hand:
                     return True
         return False
 
-    def add_card(self, card, clicked):
-        increment = 550/(len(self.hand) + 1)
-        # self.number_of_cards += 1
+    def add_card(self, card, clicked = False):
         self.hand.append(card)
         self.display(clicked)
         # print(self.cards) # Prints out a non-empty list
 
+    def remove_card(self, card):
+        self.hand.remove(card)
+
     def get_cards(self):
         return self.hand
+
+    def get_selected(self):
+        increment = 550 / (len(self.hand) + 1)
+        # Iterate backward, because hand is generated left to right, making right cards on top
+        for i in range(len(self.hand), 0, -1):
+            card_name = self.hand[i - 1].get_name()
+            sprites[card_name].show(625 + i * increment, self.y)
+            rect = sprites[card_name].get_rect()
+            if rect.collidepoint(pygame.mouse.get_pos()):
+                return [i, self.hand[i-1]]
 
     # def get_number_of_cards(self):
     #     return self.number_of_cards
