@@ -11,6 +11,7 @@ class Ability: # Idk if ability needs to use hp, atk, etc. of the parent card. I
     def __init__(self, NAME = "none"):
         self.name = NAME
 
+
 class card: # Card will only run if we define the Typing and Ability variable types first
     def __init__(self, NAME = "Untitled", IMAGE = "assets/McMissing.png", HEALTH = 0, ATTACK = 0, ENERGY = 0, TYPING = "", ABILITY = Ability()):
         self.name = NAME

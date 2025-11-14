@@ -34,6 +34,43 @@ Turn = 0
 
 
 text_font = pygame.font.SysFont("Arial", 30)
+start_screen = True
+while start_screen:
+    pos = pygame.mouse.get_pos()
+    Rules = 1
+    screen.fill((0, 0, 0))
+    Title_screen = pygame.image.load("assets/Title_screen.png")
+    Title_screen_scaled = pygame.transform.scale(Title_screen, (1440,810))
+    screen.blit(Title_screen_scaled, (225,150))
+    # pygame.draw.rect(screen, (255,255,255), pygame.Rect(625, 775, 575, 150), width=1)
+    rules_rect = pygame.Rect(400, 625, 1100, 150)
+    start_rect = pygame.Rect(625, 775, 575, 150)
+    if start_rect.collidepoint(pos) and is_clicked():
+        start_screen = False
+    if rules_rect.collidepoint(pos) and is_clicked():
+        screen.fill((255,255,255))
+        pygame.display.flip()
+        rules_screen = True
+        exit_rect = pygame.Rect(0, 0, 10, 10)
+        while rules_screen:
+            screen.fill((0, 0, 0))
+            Rules_1 = pygame.image.load("assets/Rules_1.png")
+            Rules_1_scaled = pygame.transform.scale(Rules_1, (1440,810))
+            Rules_2 = pygame.image.load("assets/Rules_2.png")
+            Rules_2_scaled = pygame.transform.scale(Rules_2, (1440,810))
+            if Rules == 1:
+                screen.blit(Rules_1_scaled, (225,100))
+                if is_clicked():
+                    Rules += 1
+            if is_clicked() and Rules == 2:
+                rules_screen = False
+                pygame.time.wait(250)
+            if Rules == 2:
+                screen.blit(Rules_2_scaled, (225,100))
+            pygame.display.flip()
+            pygame.event.pump()
+    pygame.display.flip()
+    pygame.event.pump()
 
 while running:
     # Board Setup
@@ -107,10 +144,10 @@ while running:
     # Win Condition
     if player.health <= 0:
         screen.fill((20,0,0))
-        draw_text("YOU DIED", font("Arial", 300), (255, 0, 0), 375, 400)
+        draw_text("YOU DIED", font("Arial", 300), (255, 0, 0), 375, 375)
     elif enemy.health <= 0:
         screen.fill((0, 128, 0))
-        draw_text("YOU WIN", font("Arial", 300), (64, 255, 64), 450, 400)
+        draw_text("YOU WIN", font("Arial", 300), (64, 255, 64), 400, 375)
 
     #Line
     # pygame.draw.rect(screen, (235,192,255), (1500, 700, 150, 225), 0, 12)
@@ -119,6 +156,7 @@ while running:
 
 
     pygame.display.flip()
+    pygame.event.pump()
 pygame.quit()
 
 # from pygame.locals import *
