@@ -15,26 +15,20 @@ from Mouse import *
 player_field = Playerfield(575)
 player_hand.add_card(free_card)
 i = 0 # We can't use a for loop, because if you have for i in range(0,2), and do i -= 1,
-while i < 2: # it doesn't lower i's index, which is what matters, since range is a tuple/list
+while i < 3: # it doesn't lower i's index, which is what matters, since range is a tuple/list
     rand = rnd.randint(0, len(deck) - 1)
     if deck[rand] not in player_hand.get_cards():
         player_hand.add_card(deck[rand])
         i += 1
 
-# enemy_field = Playerfield(250, -100)
-# #enemy cards
-# enemy_field.place_card(EP1, 0)
-# enemy_field.place_card(EP2, 1)
-# enemy_field.place_card(ES4, 2)
-# enemy_field.place_card(EA2, 3)
-# enemy_field.place_card(Catastrophevil, 4)
-# enemy_field.place_card(ES5, 5)
 Turn = 0
 
 
 
 text_font = pygame.font.SysFont("Arial", 30)
 start_screen = True
+card_drawn = False
+
 while start_screen:
     pos = pygame.mouse.get_pos()
     Rules = 1
@@ -45,6 +39,7 @@ while start_screen:
     # pygame.draw.rect(screen, (255,255,255), pygame.Rect(625, 775, 575, 150), width=1)
     rules_rect = pygame.Rect(400, 625, 1100, 150)
     start_rect = pygame.Rect(625, 775, 575, 150)
+
     if start_rect.collidepoint(pos) and is_clicked():
         start_screen = False
     if rules_rect.collidepoint(pos) and is_clicked():
@@ -76,11 +71,25 @@ while running:
     # Board Setup
     if True:
         screen.fill((0,0,0)) # Resets each frame
+        # bg = pygame.image.load("assets/blep.jpg")
+        bg = pygame.image.load("assets/peak.jpg")
+        # bg = pygame.image.load("assets/bongo_cat.jpg")
+        # bg = pygame.image.load("assets/529a65a7ba52c0b622b7e3042eab7cad.jpg")
+
+        bg = pygame.transform.scale(bg, (1920,1080)) # Remove as needed
+        # screen.blit(bg, (0,0))
+        screen.blit(bg, (0,-95)) # For peak
+        # screen.blit(bg, (-25, -481)) # For Bongo Cat
+        # screen.blit(bg, (765,-281)) # For 529a65a7ba52c0b622b7e3042eab7cad
+        # pygame.draw.line(screen, (0, 192, 255), (0, 525), (1920, 525), 1) # Remove for some bg
+
+
+
         # Grid Lines
-        for i in range(1, 19):
-            pygame.draw.line(screen, (30, 30, 30), (i * 100, 0), (i * 100, 1080), 1)
-        for i in range(1, 10):
-            pygame.draw.line(screen, (30, 30, 30), (0, i * 100), (1920, i * 100), 1)
+        # for i in range(1, 19):
+        #     pygame.draw.line(screen, (30, 30, 30), (i * 100, 0), (i * 100, 1080), 1)
+        # for i in range(1, 10):
+        #     pygame.draw.line(screen, (30, 30, 30), (0, i * 100), (1920, i * 100), 1)
         # Player Board
         pygame.draw.rect(screen, (255,255,255), (500,575,150,225), 1, 12)
         draw_text("S", font("Arial", 200), (255, 255, 255), 520, 565)
@@ -107,7 +116,11 @@ while running:
         pygame.draw.rect(screen, (255,0,0), (1000,250,150,225), 1, 12)
         pygame.draw.rect(screen, (255,0,0), (1250,250,150,225), 1, 12)
         pygame.draw.rect(screen, (255,0,0), (225,175,225,150), 1, 12)
-        pygame.draw.rect(screen, (255,0,0), (225,350,225,150), 1, 12) #
+        pygame.draw.rect(screen, (255,0,0), (225,350,225,150), 1, 12)
+
+        # Remove at some point:
+        screen.blit(pygame.image.load("assets/Deck.png"), (1500,700))
+
     pos = pygame.mouse.get_pos()
     clicked = is_clicked() # is_clicked = is_clicked() will not work, because they have the same name
     # print(clicked)
@@ -121,10 +134,19 @@ while running:
 
     end_img = pygame.image.load('assets/End_turn.png')
     end_turn = Button(end_img, "End Turn", Turn)
+    end_turn_rect = pygame.Rect(885, 120, 150, 75)
     end_turn.show(885, 120, 150, 75, pos, clicked, player_hand, player_field, enemy_field)
+    if end_turn_rect.collidepoint(pos) and clicked:
+        card_drawn = False
+        Turn += 1
 
-    deck = Button(pygame.image.load("assets/Deck.png"), "Deck", Turn)
-    deck.show(1500, 700, 150, 225, pos, clicked, player_hand, player_field)
+
+    if card_drawn == False:
+        deck = Button(pygame.image.load("assets/Deck.png"), "Deck", Turn)
+        deck_rect = pygame.Rect(1500, 700, 150, 225)
+        deck.show(1500, 700, 150, 225, pos, clicked, player_hand, player_field)
+        if deck_rect.collidepoint(pos) and clicked:
+            card_drawn = True
     player_hand.display(clicked)
     # player_hand.display()
     # pygame.time.wait(500)
@@ -140,7 +162,6 @@ while running:
     draw_text("Energy = " + str(player.get_tenergy()), font("Arial", 30), (64, 128, 255), 1575, 550)
     draw_text("Energy = " + str(enemy.get_tenergy()), font("Arial", 30), (64, 128, 255), 1575, 125)
 
-    pygame.draw.line(screen, (0,192,255), (0,525), (1920,525), 1)
     # Win Condition
     if player.health <= 0:
         screen.fill((20,0,0))
